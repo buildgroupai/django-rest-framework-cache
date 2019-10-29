@@ -3,8 +3,18 @@ from .registry import cache_registry
 from .settings import api_settings
 
 
+def get_primary_keys_values(instance, model):
+    return {pk: getattr(instance, pk)
+            for pk in model._primary_keys.keys()}
+
+
 def get_cache_key(instance, serializer, protocol):
     """Get cache key of instance"""
+    _id = "|".join([
+        "{0}:{1}".format(key, repr(value))
+        for (key, value) in get_primary_keys_values(
+            instance, instance).items()])
+
     params = {"id": instance.pk,
               "app_label": instance._meta.app_label,
               "model_name": instance._meta.object_name,
