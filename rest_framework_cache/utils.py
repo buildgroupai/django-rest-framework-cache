@@ -15,7 +15,7 @@ def get_cache_key(instance, serializer, protocol):
         for (key, value) in get_primary_keys_values(
             instance, instance).items()])
 
-    params = {"id": instance.pk,
+    params = {"id": _id,
               "app_label": instance._meta.app_label,
               "model_name": instance._meta.object_name,
               "serializer_name": serializer.__name__,
